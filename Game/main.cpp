@@ -186,7 +186,7 @@ int main(void)
             int iRand = (rand() % 11) + 1;
           
             int towardsPlayer = (rand() % 2);
-            float aiSpeed = 3.0f;
+            float aiSpeed = 4.5f;
 
 
             if (towardsPlayer == 0) {
