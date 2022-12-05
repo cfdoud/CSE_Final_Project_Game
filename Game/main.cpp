@@ -317,6 +317,7 @@ int main(void)
     UnloadTexture(hero);
     UnloadTexture(enemy);
     UnloadTexture(background);
+    UnloadTexture(Graveyard);
     //ClearBackground(background);
     //UnloadTexture(background);
     CloseWindow();        // Close window and OpenGL context
