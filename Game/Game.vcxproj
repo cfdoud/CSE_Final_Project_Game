@@ -128,29 +128,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Game_images\hazmat.gif">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
-      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</DeploymentContent>
-    </Image>
+    <Image Include="alagard.png" />
     <Image Include="deadScarfy.png" />
     <Image Include="Ending.jpeg" />
-    <Image Include="graveayrd.png" />
-    <Image Include="graves.png" />
-    <Image Include="gravesnew.png" />
-    <Image Include="gravesnew_1_3.png" />
     <Image Include="gravesnew_1_4.png" />
     <Image Include="hazmat.png" />
-    <Image Include="mario.png" />
+    <Image Include="pengfei.png" />
     <Image Include="scarfy.png" />
+    <Image Include="TITLE.png" />
+    <Image Include="zuc.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="fonts.h" />
     <ClInclude Include="logic.h" />
-    <ClInclude Include="player.h" />
-    <ClInclude Include="screens.h" />
-    <ClInclude Include="zombie.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sound.wav" />
+    <Media Include="start.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

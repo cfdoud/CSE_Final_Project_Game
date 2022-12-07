@@ -22,22 +22,16 @@
     <Filter Include="Source Files\resources\textures">
       <UniqueIdentifier>{83f5605d-4ad8-4a84-9436-bdcf5967b076}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Fonts">
+      <UniqueIdentifier>{ba5b7b78-318a-475e-8e1f-1c15a08a871c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Zombie.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\..\Game_images\hazmat.gif">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="mario.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="hazmat.png">
       <Filter>Resource Files</Filter>
     </Image>
@@ -50,34 +44,39 @@
     <Image Include="Ending.jpeg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="graveayrd.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="graves.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="gravesnew.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="gravesnew_1_3.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="gravesnew_1_4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="alagard.png">
+      <Filter>Source Files</Filter>
+    </Image>
+    <Image Include="pengfei.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="zuc.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TITLE.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="player.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="zombie.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="screens.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="logic.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fonts.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sound.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="start.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>
