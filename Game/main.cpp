@@ -1,8 +1,10 @@
 #include "raylib.h"
-#include "logic.h"
 #include "raymath.h"
 #include <ctime>
 #include <cstdlib>
+
+#include "logic.h"
+#include "character.h"
 using namespace std;
 //------------------------------------------------------------------------------------------
 // Types and Structures Definition
@@ -42,19 +44,22 @@ int main(void)
     //--------------------------------------------------------------------------------------
     Rectangle screen = {0, 0, screenWidth, screenHeight};
     InitWindow(screenWidth, screenHeight, "Zom-beez");
+    InitAudioDevice();
     GameScreen currentScreen = LOGO;
     //InitLogoScreen();
     // TODO: Initialize all required variables and load all required data here!
 
-    int framesCounter = 0; 
+    int framesCounter = 0;
     int enemyframesCounter = 0;
     // Useful to count frames
     //Vector2 ballPosition = { (float)screenWidth / 2, (float)screenHeight / 2 };
 
     SetTargetFPS(60);               // Set desired framerate (frames-per-second)
     //--------------------------------------------------------------------------------------
-       
+
     // Load texture
+
+    Sound sound = LoadSound("sound.wav");
     int currentFrame = 0;
     int enemycurrentFrame = 0;
     //background
@@ -67,19 +72,22 @@ int main(void)
     int enemyframesSpeed = 8;
     Texture2D enemy = LoadTexture("deadScarfy.png");
     //int framesCounter = 0;
-    int framesSpeed =8;
-    Texture2D hero = LoadTexture("scarfy.png");
 
     //dimensions of HAzmat
-    Rectangle hazmatRec;
-    hazmatRec.width = hero.width / 6; //because of frames
-    hazmatRec.height = hero.height;
-    hazmatRec.x = 0;
-    hazmatRec.y = 0;
-        //position of hero
-    Vector2 heroPos;
-    heroPos.x = screenWidth / 2 - hazmatRec.width / 2;
-    heroPos.y = screenHeight / 2 - hazmatRec.height / 2;
+    // Rectangle heroRec;
+    // heroRec.width = hero.width / 6; //because of frames
+    // heroRec.height = hero.height;
+    // heroRec.x = 0;
+    // heroRec.y = 0;
+    //     //position of hero
+    // Vector2 heroPos;
+    // heroPos.x = screenWidth / 2 - heroRec.width / 2;
+    // heroPos.y = screenHeight / 2 - heroRec.height / 2;
+    Character hero;
+    hero.setFrame(8);
+    hero.setChar(LoadTexture("scarfy.png"));
+    hero.setRectangle(0, 0, hero.getCharacterWidth()/6, hero.getCharacterHeight());
+    hero.setVector(screenWidth/2 - hero.getRectangleWidth() / 2, screenWidth / 2 - hero.getCharacterWidth()/2);
 
 
     ////dimensions of ENEMY
@@ -132,14 +140,21 @@ int main(void)
             // TODO: Update GAMEPLAY screen variables here!
             enemyframesCounter++;
             framesCounter++;
-            if (framesCounter >= (60 / framesSpeed))
+            //COLLISION DETECTION
+            float x[2] = { enemyPos.x, enemyPos.y };
+            // float y[2] = { heroPos.x, heroPos.y };
+            float y[2] = { hero.getCharPos().x, hero.getCharPos().y };
+            if (collision(27, 27, x, y)) {
+                PlaySound(sound);
+                currentScreen = ENDING;
+            }
+            if (framesCounter >= (60 / hero.getFrame()))
             {
                 framesCounter = 0;
                 currentFrame++;
 
                 if (currentFrame > 5) currentFrame = 0;
-
-                hazmatRec.x = currentFrame * hero.width / 6;
+                    hero.setRectangleX(currentFrame * hero.getRectangleWidth());
             }
             if (enemyframesCounter >= (60 / enemyframesSpeed))
             {
@@ -150,15 +165,10 @@ int main(void)
 
                 enemyRec.x = enemycurrentFrame * enemy.width / 6;
             }
-            DrawTextureRec(hero, hazmatRec, heroPos, WHITE);
+            // DrawTextureRec(h.getCharacter(), heroRec, heroPos, WHITE);
+            DrawTextureRec(hero.getCharacter(), hero.getCharRect(), hero.getCharPos(), WHITE);
             DrawTextureRec(enemy, enemyRec, enemyPos, WHITE);
-            
-            //COLLISION DETECTION
-            float x[2] = { enemyPos.x, enemyPos.y };
-            float y[2] = { heroPos.x, heroPos.y };
-            if (collision(10, 10, x, y)) {
-                currentScreen = ENDING;
-            }
+
             //COLLISION DETECTION
 
             // Press enter to change to ENDING screen
@@ -167,30 +177,39 @@ int main(void)
                 currentScreen = ENDING;
             }
             if (IsKeyDown(KEY_D)) {
-                heroPos.x += 4.0f;
-                heroPos.x += 4.0f;
-                hero.width = abs(hero.width);
+                // heroPos.x += 4.0f;
+                hero.setVectorXMove(4);
+                // hero.width = abs(hero.width);
+                hero.setRectangleWidthChangePos();
             }
+
             if (IsKeyDown(KEY_A)) {
-                heroPos.x -= 4.0f;
-                if (hero.width > 0) {
-                    hero.width *= -1;
+                // heroPos.x -= 4.0f;
+                hero.setVectorXMove(-4);
+                if (hero.getRectangleWidth() > 0) {
+                    hero.setRectangleWidthChange(-1);
                 }
+                // if (hero.width > 0) {
+                //     hero.width *= -1;
+                // }
             }
-            if (IsKeyDown(KEY_W)) heroPos.y -= 4.0f;
-            if (IsKeyDown(KEY_S)) heroPos.y += 4.0f;
+            if (IsKeyDown(KEY_W)) hero.setVectorYMove(-4);
+            if (IsKeyDown(KEY_S)) hero.setVectorYMove(4);
+
+            // if (IsKeyDown(KEY_W)) heroPos.y -= 4.0f;
+            // if (IsKeyDown(KEY_S)) heroPos.y += 4.0f;
 
             //  BeginDrawing();
 
             srand(time(0));
             int iRand = (rand() % 11) + 1;
-          
+
             int towardsPlayer = (rand() % 2);
             float aiSpeed = 4.5f;
 
 
             if (towardsPlayer == 0) {
-                if (enemyPos.x <= heroPos.x) {
+                if (enemyPos.x <= hero.getCharPos().x) {
                     enemyPos.x += aiSpeed;
                     enemy.width = abs(enemy.width);
                 }
@@ -201,28 +220,28 @@ int main(void)
                         enemy.width *= -1;
                     }
                 }
-                if (iRand == 2 || iRand == 8 || iRand == 12 && enemyPos.y <= heroPos.y)
+                if (iRand == 2 || iRand == 8 || iRand == 12 && enemyPos.y <= hero.getCharPos().y)
                     enemyPos.y -= aiSpeed;
-                else if (iRand == 9 || iRand == 10 || iRand == 0 && enemyPos.y <= heroPos.y)
+                else if (iRand == 9 || iRand == 10 || iRand == 0 && enemyPos.y <= hero.getCharPos().y)
                     enemyPos.y += aiSpeed;
             }
             else {
-                if (enemyPos.y <= heroPos.y)
+                if (enemyPos.y <= hero.getCharPos().y)
                     enemyPos.y += aiSpeed;
                 else
                     enemyPos.y -= aiSpeed;
-                if (iRand == 4 || iRand == 1 || iRand == 6 && enemyPos.x <= heroPos.x) {
+                if (iRand == 4 || iRand == 1 || iRand == 6 && enemyPos.x <= hero.getCharPos().x) {
                     enemyPos.x += aiSpeed;
                     enemy.width = abs(enemy.width);
                 }
-                else if (iRand == 11 || iRand == 5 || iRand == 3 && enemyPos.x <= heroPos.x) {
+                else if (iRand == 11 || iRand == 5 || iRand == 3 && enemyPos.x <= hero.getCharPos().x) {
                     enemyPos.x -= aiSpeed;
                     if (enemy.width > 0) {
                         enemy.width *= -1;
                     }
                 }
             }
-            
+
 
 
 
@@ -269,8 +288,8 @@ int main(void)
 
         //ClearBackground(WHITE);
         ClearBackground(GetColor(0x052c46ff));
-        
-       
+
+
         switch (currentScreen)
         {
         case LOGO:
@@ -290,8 +309,8 @@ int main(void)
         } break;
         case GAMEPLAY:
         {
-            
-            
+
+
             //DrawTextureRec(hero, hazmatRec, heroPos, WHITE);
         }break;
         case ENDING:
@@ -314,12 +333,12 @@ int main(void)
     //--------------------------------------------------------------------------------------
 
     // TODO: Unload all loaded data (textures, fonts, audio) here!
-    UnloadTexture(hero);
     UnloadTexture(enemy);
     UnloadTexture(background);
     UnloadTexture(Graveyard);
     //ClearBackground(background);
     //UnloadTexture(background);
+    CloseAudioDevice();
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
