@@ -59,6 +59,9 @@
     <Image Include="TITLE.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="gravesfin.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="logic.h">

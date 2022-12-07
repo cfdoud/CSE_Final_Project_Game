@@ -74,7 +74,7 @@ int main(void)
     //background
     float scrollingBack = 0.0f;
     Texture2D zuc = LoadTexture("zuc.png");
-    Texture2D Graveyard = LoadTexture("gravesnew_1_4.png");
+    Texture2D Graveyard = LoadTexture("gravesfin.png");
     Texture2D titleScreen = LoadTexture("TITLE.png");
     if (scrollingBack <= -Graveyard.width * 2) scrollingBack = 0;
     //lolz
@@ -119,8 +119,8 @@ int main(void)
     enemyRec.y = 0;
     //position of ENEMY
     Vector2 enemyPos;
-    enemyPos.x = screenWidth / 8 - enemyRec.width / 8;
-    enemyPos.y = screenHeight / 8 - enemyRec.height / 8;
+    enemyPos.x = screenWidth  - enemyRec.width;
+    enemyPos.y = screenHeight - enemyRec.height;
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
@@ -270,15 +270,15 @@ int main(void)
 
 
 
-            if (enemyPos.x > screenWidth) {
-                enemyPos.x = screenWidth;
+            if (enemyPos.x > screenWidth-100) {
+                enemyPos.x = screenWidth-100;
             }
             else if (enemyPos.x < 0) {
                 enemyPos.x = 0;
             }
 
-            if (enemyPos.y > screenHeight) {
-                enemyPos.y = screenHeight;
+            if (enemyPos.y > screenHeight-350) {
+                enemyPos.y = screenHeight-350;
             }
             else if (enemyPos.y < 0) {
                 enemyPos.y = 0;
